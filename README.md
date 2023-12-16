@@ -1,6 +1,6 @@
 # API for ML
 
-**Deploy use** : Cloud Run Google CLoud Platform
+**Deploy use** : Cloud Run Google Cloud Platform
 
 ## TEST THE API
 
