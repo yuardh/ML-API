@@ -1,0 +1,148 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "WasteWise Machine Learning Model API",
+        "description": "API for WasteWise App",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:5000/",
+            "description": "Local server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Machine Learning",
+            "description": "Prediction routes"
+        }
+    ],
+    "paths": {
+        "/prediction": {
+            "post": {
+                "tags": ["Machine Learning"],
+                "summary": "Prediction Image",
+                "description": "User can send POST request to upload their image to predict waste type",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "object",
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 200
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Success predicting"
+                                                }
+                                            }
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "type_prediction": {
+                                                    "type": ["string", "null"],
+                                                    "example": "Plastic"
+                                                },
+                                                "waste_type": {
+                                                    "type": ["string", "null"],
+                                                    "example": "Inorganic"
+                                                },
+                                                "confidence_score": {
+                                                    "type": ["number", "null"],
+                                                    "example": 0.92
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "object",
+                                            "properties": {   
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "error"
+                                                },
+                                                "error": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string",
+                                                            "example": "Invalid file format. Please upload a JPG, JPEG, or PNG image."
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "error"
+                                                },
+                                                "error": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string",
+                                                            "example": "Internal server error: Something went wrong."
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
