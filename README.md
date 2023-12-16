@@ -1,10 +1,10 @@
-# API for ML
+# API for Machine Learning
 
-**Deploy use** : Cloud Run Google CLoud Flatform
+**Deploy use** : Cloud Run Google CLoud Platform
 
 ## TEST THE API
 
-**URL** : `https://ml-api-rupnuawd4a-et.a.run.app/`
+**URL** : `wait for deploy`
 
 **Method** : `GET`
 
@@ -12,7 +12,7 @@
 
 ### Success Response
 
-**Condition** : If everything is OK.
+**Condition** : Application is ready to use.
 
 **Code** : `200`
 
@@ -25,7 +25,7 @@ Application is working
 
 ## PREDICT THE IMAGE
 
-**URL** : `https://ml-api-rupnuawd4a-et.a.run.app/process`
+**URL** : `https://ml-api-rupnuawd4a-et.a.run.app/prediction`
 
 **Method** : `POST`
 

@@ -14,7 +14,7 @@ CORS(app, resources={r"/": {"origins": ["http://192.168.1.3:8080", "http://127.0
 
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = 'static/uploads/WasteWise'
-app.config['MODEL_FILE'] = 'model_hana.h5'
+app.config['MODEL_FILE'] = 'model_WasteWise.h5'
 
 SWAGGER_URL = '/api_model-docs'
 swagger_ui_blueprint = create_swagger_blueprint()
