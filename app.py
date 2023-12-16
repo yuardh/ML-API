@@ -10,7 +10,7 @@ from swagger import create_swagger_blueprint
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/": {"origins": ["http://192.168.1.3:8080", "http://127.0.0.1:8080"]}})
+CORS(app, resources={r"/": {"origins": "http://127.0.0.1:8080"}})
 
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = 'static/uploads/WasteWise'
@@ -28,8 +28,6 @@ if not os.path.exists(model_file_path):
 
 
 model = tf.keras.models.load_model(model_file_path, custom_objects={"KerasLayer": tfhub.KerasLayer})
-tf.saved_model.save(model, 'saved_model')  
-loaded_model = tf.saved_model.load('saved_model')  
 
 labels = {
     0: "Biological",
