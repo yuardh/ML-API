@@ -58,14 +58,11 @@ result = predict(image_path)
 
 ```json
 {
-    "data": {
-        "confidence_score": 0.9760169386863708,
-        "type_prediction": "Plastic",
-        "waste_type": "Inorganic"
-    },
-    "status": {
-        "code": 200,
-        "message": "Success predicting"
-    }
+  "result": "cardboard"
 }
 ```
+
+### Referensi
+
+- [faizan170/tensorflow-image-classification-flask-deployment](https://github.com/faizan170/tensorflow-image-classification-flask-deployment "faizan170's Github profile")
+- [how-to-deploy-a-simple-flask-app-on-cloud-run-with-cloud-endpoint](https://medium.com/fullstackai/how-to-deploy-a-simple-flask-app-on-cloud-run-with-cloud-endpoint-e10088170eb7 "simple-flask-app-on-cloud-run")
