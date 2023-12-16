@@ -1,10 +1,10 @@
-# API for Machine Learning
+# API for ML
 
-**Deploy use** : Cloud Run Google CLoud Platform
+**Deploy use** : Cloud Run Google Cloud Platform
 
 ## TEST THE API
 
-**URL** : `wait for deploy`
+**URL** : `Wait for deploy in Cloud Run`
 
 **Method** : `GET`
 
@@ -12,20 +12,20 @@
 
 ### Success Response
 
-**Condition** : Application is ready to use.
+**Condition** : OK.
 
 **Code** : `200`
 
 **Content example**
 
 ```
-Application is working
+SERVERRRRRRRR.......IS FIREE!!!
 
 ```
 
 ## PREDICT THE IMAGE
 
-**URL** : `https://ml-api-rupnuawd4a-et.a.run.app/prediction`
+**URL** : ``
 
 **Method** : `POST`
 
@@ -33,21 +33,24 @@ Application is working
 
 **Data must provided**
 
-Provide image to be predict with key "img".
+Provide image to be predict with key "image".
 
 **Data example**
 All fields must be sent.
 
 ```
-const formdata = new Formdata()
-formdata.append("img" , <image file>)
+image = request.files.get("image")
 
-body : formdata
+filename = secure_filename(image.filename)
+image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+image.save(image_path)
+
+result = predict(image_path)
 ```
 
 ### Success Response
 
-**Condition** : If everything is OK.
+**Condition** : OK.
 
 **Code** : `200`
 
@@ -55,11 +58,14 @@ body : formdata
 
 ```json
 {
-  "result": "cardboard"
+    "data": {
+        "confidence_score": 0.9760169386863708,
+        "type_prediction": "Plastic",
+        "waste_type": "Inorganic"
+    },
+    "status": {
+        "code": 200,
+        "message": "Success predicting"
+    }
 }
 ```
-
-### Referensi
-
-- [faizan170/tensorflow-image-classification-flask-deployment](https://github.com/faizan170/tensorflow-image-classification-flask-deployment "faizan170's Github profile")
-- [how-to-deploy-a-simple-flask-app-on-cloud-run-with-cloud-endpoint](https://medium.com/fullstackai/how-to-deploy-a-simple-flask-app-on-cloud-run-with-cloud-endpoint-e10088170eb7 "simple-flask-app-on-cloud-run")
