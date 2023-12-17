@@ -1,60 +1,37 @@
-# API for ML
+# bangkit-machine-learning
 
-**Deploy use** : Cloud Run Google Cloud Platform
+The source code of machine learning model's API of WasteWise in order to complete Bangkit Capstone Project
 
-## TEST THE API
+# API URL
+[Flask API]
 
-**URL** : `Wait for deploy in Cloud Run`
+# API Endpoint
+|     Endpoint    |   Method   |  Body Sent (JSON)  |              Description              |
+|     :------     | :--------: |  :--------------:  | :-----------------------------------: |
+|        /        |    GET     |        None        |   HTTP GET REQUEST Testing Endpoint   |
+|   /prediction   |    POST    |  image: Image file |          Prediction Endpoint          |
+| /api_model-docs |    GET     |    swagger.json    |           API Documentations          |
 
-**Method** : `GET`
+# How to run this Flask app
+- Clone this repo
+- Open terminal and go to this project's root directory
+- Type `python -m venv .venv` and hit enter
+- In Linux, type `source .venv/bin/activate`
+- In Windows, type `.venv\Scripts\activate`
+- Type `pip install -r requirements.txt`
+- Serve the Flask app by typing `flask run` or `python app.py` for debungging mode
+- It will run on `http://127.0.0.1:8080`
 
-**Auth required** : NO
+# How to predict image with Postman
+- Open Postman
+- Enter URL request bar with `http://127.0.0.1:8080/prediction`
+- Select method POST
+- Go to Body tab and select form-data
+- Change key from form-data with file (it must be named `image`)
+- Input the image that you want predict as a value of the key
+- Send the request
 
-### Success Response
-
-**Condition** : OK.
-
-**Code** : `200`
-
-**Content example**
-
-```
-SERVERRRRRRRR.......IS FIREE!!!
-
-```
-
-## PREDICT THE IMAGE
-
-**URL** : ``
-
-**Method** : `POST`
-
-**Auth required** : NO
-
-**Data must provided**
-
-Provide image to be predict with key "image".
-
-**Data example**
-All fields must be sent.
-
-```
-image = request.files.get("image")
-
-filename = secure_filename(image.filename)
-image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-image.save(image_path)
-
-result = predict(image_path)
-```
-
-### Success Response
-
-**Condition** : OK.
-
-**Code** : `200`
-
-**Content example**
+**Success response**
 
 ```json
 {
@@ -68,4 +45,3 @@ result = predict(image_path)
         "message": "Success predicting"
     }
 }
-```
