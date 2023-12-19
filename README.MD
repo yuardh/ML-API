@@ -46,6 +46,7 @@ The source code of machine learning model's API of WasteWise in order to complet
         "message": "Success predicting"
     }
 }
+```
 
 **Success response - Plastic**
 
@@ -62,3 +63,4 @@ The source code of machine learning model's API of WasteWise in order to complet
         "message": "Success predicting"
     }
 }
+```
