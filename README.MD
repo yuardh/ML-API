@@ -20,7 +20,8 @@ The source code of machine learning model's API of WasteWise in order to complet
 - In Windows, type `.venv\Scripts\activate`
 - Type `pip install -r requirements.txt`
 - Serve the Flask app by typing `flask run` or `python app.py` for debungging mode
-- It will run on `http://127.0.0.1:8080`
+- When typing `flask run` it will run on `http://127.0.0.1:5000`
+- When typing `python app.py` it will run on `http://127.0.0.1:8080`
 
 # How to predict image with Postman
 - Open Postman
@@ -36,9 +37,25 @@ The source code of machine learning model's API of WasteWise in order to complet
 ```json
 {
     "data": {
-        "confidence_score": 0.9760169386863708,
+        "confidence_score": 0.9924584031105042,
+        "type_prediction": "Cardboard",
+        "waste_id": "cardboard"
+    },
+    "status": {
+        "code": 200,
+        "message": "Success predicting"
+    }
+}
+
+When detecting plastic, the response will be like this
+
+```json
+{
+    "data": {
+        "confidence_score": 0.9924584031105042,
+        "plastic_type": "PET",
         "type_prediction": "Plastic",
-        "waste_type": "Inorganic"
+        "waste_id": "plastic_pet"
     },
     "status": {
         "code": 200,
