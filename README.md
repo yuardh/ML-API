@@ -32,7 +32,7 @@ The source code of machine learning model's API of WasteWise in order to complet
 - Input the image that you want predict as a value of the key
 - Send the request
 
-**Success response**
+**Success response - Non Plastic**
 
 ```json
 {
@@ -46,8 +46,9 @@ The source code of machine learning model's API of WasteWise in order to complet
         "message": "Success predicting"
     }
 }
+```
 
-When detecting plastic, the response will be like this
+**Success response - Plastic**
 
 ```json
 {
@@ -62,3 +63,4 @@ When detecting plastic, the response will be like this
         "message": "Success predicting"
     }
 }
+```
