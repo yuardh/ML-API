@@ -46,11 +46,6 @@ plastic_model_file_path = app.config['PLASTIC_MODEL_FILE']
 if not os.path.exists(plastic_model_file_path):
     print(f"Error: Model file '{plastic_model_file_path}' not found.")
 
-plastic_model = YOLO(plastic_model_file_path)
-
-mapping = {0: 'HDPE', 1: 'LDPE', 2: 'PET', 3: "PP", 4: "PS", 5: "PVC"}
-
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
@@ -73,8 +68,32 @@ def predict_waste_type(img_path):
         predicted_class = labels[class_index]
         confidence_score = float(predictions[0, class_index])
 
-        result = {"type_prediction": predicted_class, "confidence_score": confidence_score, "error": None}
+        plastic_type = None
+        if(predicted_class == "Plastic"):
+            plastic_model = YOLO(plastic_model_file_path)
 
+            plastic_prediction = plastic_model.predict(img_path, imgsz=160)
+
+            # Get the prediction with the highest confidence score
+            top_prediction = plastic_prediction[0].probs.top1
+
+            # Map the class index to the plastic type
+            mapping = {0: 'HDPE', 1: 'LDPE', 2: 'PET', 3: "PP", 4: "PS", 5: "PVC"}
+            plastic_type = mapping[top_prediction]
+        
+        # Map waste_id based on the predicted class
+        waste_id_mapping = {
+            "Biological": "biological",
+            "Cardboard": "cardboard",
+            "Glass": "glass",
+            "Metal": "metal",
+            "Paper": "paper",
+            "Plastic": f"plastic_{plastic_type.lower()}" if plastic_type else "plastic"
+        }
+        
+        waste_id = waste_id_mapping.get(predicted_class, "unknown")
+
+        result = {"type_prediction": predicted_class, "confidence_score": confidence_score, "plastic_type": plastic_type, "waste_id": waste_id, "error": None}
         return result
 
     except Exception as e:
@@ -83,25 +102,6 @@ def predict_waste_type(img_path):
             "confidence_score": None,
             "error": f"Error processing image: {str(e)}",
         } 
-    
-def predict_plastic_type(img_path):
-    try:
-        # Call the function to predict plastic type using YOLO model
-        plastic_prediction = plastic_model.predict(img_path, img_pathsz=160)
-
-        # Get the prediction with the highest confidence score
-        top_prediction = plastic_prediction[0].probs.top1
-
-        # Map the class index to the plastic type
-        plastic_type = mapping[top_prediction]
-
-        result = {"plastic_type": plastic_type}
-
-        return result
-
-    except Exception as e:
-        return {"type_prediction": None, "error": f"Error predicting plastic type: {str(e)}"}
-
 
 @app.route("/")
 def index():
@@ -131,28 +131,47 @@ def prediction_route():
             }), 400
 
         try:
+            # Save the uploaded image
             filename = secure_filename(image.filename)
             image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             image.save(image_path)
 
             # Call the function to predict waste type
             result = predict_waste_type(image_path)
-            result_plastic = predict_plastic_type(image_path)
-
-            # Access the plastic_type directly from the result dictionary
-            plastic_type = result_plastic.get("plastic_type", None)
-
-            return jsonify({
-                "status": {
-                    "code": 200,
-                    "message": "Success predicting"
-                },
-                "data": {
-                    "type_prediction": result["type_prediction"],
-                    "plastic_type": plastic_type,
-                    "confidence_score": result["confidence_score"]
-                }
-            }), 200
+            
+            if result["type_prediction"] == "Plastic":
+                return jsonify({
+                    "status": {
+                        "code": 200,
+                        "message": "Success predicting"
+                    },
+                    # "data": {
+                    #     "confidence_score": result["confidence_score"],
+                    #     "waste_id": result["waste_id"]
+                    # }
+                    "data": {
+                        "type_prediction": result["type_prediction"],
+                        "plastic_type": result["plastic_type"],
+                        "confidence_score": result["confidence_score"],
+                        "waste_id": result["waste_id"]
+                    }
+                }), 200
+            else:
+                return jsonify({
+                    "status": {
+                        "code": 200,
+                        "message": "Success predicting"
+                    },
+                    # "data": {
+                    #     "confidence_score": result["confidence_score"],
+                    #     "waste_id": result["waste_id"]
+                    # }
+                    "data": {
+                        "type_prediction": result["type_prediction"],
+                        "confidence_score": result["confidence_score"],
+                        "waste_id": result["waste_id"]
+                    }
+                }), 200
 
         except Exception as e:
             return jsonify({
