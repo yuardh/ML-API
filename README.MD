@@ -46,3 +46,19 @@ The source code of machine learning model's API of WasteWise in order to complet
         "message": "Success predicting"
     }
 }
+
+**Success response - Plastic**
+
+```json
+{
+    "data": {
+        "confidence_score": 0.9924584031105042,
+        "plastic_type": "PET",
+        "type_prediction": "Plastic",
+        "waste_id": "plastic_pet"
+    },
+    "status": {
+        "code": 200,
+        "message": "Success predicting"
+    }
+}
