@@ -47,7 +47,7 @@ The source code of machine learning model's API of WasteWise in order to complet
     }
 }
 
-When detecting plastic, the response will be like this
+- When detecting plastic, the response will be like this
 
 ```json
 {
