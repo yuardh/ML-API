@@ -19,6 +19,7 @@ CORS(app, resources={r"/": {"origins": "http://127.0.0.1:8080"}})
 
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = 'static/uploads/WasteWise'
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 app.config['MODEL_FILE'] = 'model/model_WasteWise.h5'
 app.config['PLASTIC_MODEL_FILE'] = 'model/model_plasticType.pt'
 
@@ -67,6 +68,10 @@ def predict_waste_type(img_path):
         class_index = np.argmax(predictions)
         predicted_class = labels[class_index]
         confidence_score = float(predictions[0, class_index])
+        confidence_threshold = 0.5
+
+        if confidence_score < confidence_threshold:
+            return {"type_prediction": "Not Waste", "confidence_score": confidence_score}
 
         plastic_type = None
         if(predicted_class == "Plastic"):
@@ -82,6 +87,7 @@ def predict_waste_type(img_path):
             plastic_type = mapping[top_prediction]
         
         # Map waste_id based on the predicted class
+        waste_id = None
         waste_id_mapping = {
             "Biological": "biological",
             "Cardboard": "cardboard",
@@ -154,6 +160,17 @@ def prediction_route():
                         "plastic_type": result["plastic_type"],
                         "confidence_score": result["confidence_score"],
                         "waste_id": result["waste_id"]
+                    }
+                }), 200
+            elif result["type_prediction"] == "Not Waste":
+                return jsonify({
+                    "status": {
+                        "code": 200,
+                        "message": "Success predicting"
+                    },
+                    "data": {
+                        "type_prediction": "Not Waste",
+                        "confidence_score": result["confidence_score"],
                     }
                 }), 200
             else:

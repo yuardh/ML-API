@@ -1,9 +1,10 @@
 Dockerfile
 README.md
+README.MD
 *.pyc
 *.pyo
 *.pyd
 __pycache__
 .pytest_cache
-
+.venv
 .gitignore
