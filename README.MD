@@ -1,16 +1,25 @@
-# bangkit-machine-learning
+# Bangkit-WasteWise-Machine-Learning
 
 The source code of machine learning model's API of WasteWise in order to complete Bangkit Capstone Project
 
+# Notebook Build WasteWise's Prediction Model
+
+[Click Here](https://colab.research.google.com/drive/1UV9mG-VhR6gDf2nyrFvo9eJUFJTEmw9c?usp=sharing)
+
 # API URL
-[Flask API]
+
+[Flask API](https://ml-wastewise-6tqdqpkdja-et.a.run.app)
 
 # API Endpoint
-|     Endpoint    |   Method   |  Body Sent (JSON)  |              Description              |
-|     :------     | :--------: |  :--------------:  | :-----------------------------------: |
-|        /        |    GET     |        None        |   HTTP GET REQUEST Testing Endpoint   |
-|   /prediction   |    POST    |  image: Image file |          Prediction Endpoint          |
-| /api_model-docs |    GET     |    swagger.json    |           API Documentations          |
+|   Endpoint  |   Method   |  Body Sent (JSON)  |              Description              |
+|   :------   | :--------: |  :--------------:  | :-----------------------------------: |
+|      /      |    GET     |        None        |   HTTP GET REQUEST Testing Endpoint   |
+| /prediction |    POST    |  image: Image file |          Prediction Endpoint          |
+|  /api-docs  |    GET     |    swagger.json    |           API Documentations          |
+
+# API Documentation
+
+You can check the API documentation [here](https://ml-wastewise-6tqdqpkdja-et.a.run.app) 
 
 # How to run this Flask app
 - Clone this repo
@@ -19,7 +28,7 @@ The source code of machine learning model's API of WasteWise in order to complet
 - In Linux, type `source .venv/bin/activate`
 - In Windows, type `.venv\Scripts\activate`
 - Type `pip install -r requirements.txt`
-- Serve the Flask app by typing `flask run` or `python app.py` for debungging mode
+- Serve the Flask app by typing `flask run` or `python app.py` for debugging mode
 - When typing `flask run` it will run on `http://127.0.0.1:5000`
 - When typing `python app.py` it will run on `http://127.0.0.1:8080`
 

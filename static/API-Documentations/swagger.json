@@ -7,6 +7,10 @@
     },
     "servers": [
         {
+            "url": "https://ml-wastewise-6tqdqpkdja-et.a.run.app/",
+            "description": "Production server in Cloud Run"
+        },
+        {
             "url": "http://127.0.0.1:8080/",
             "description": "Local server"
         }
@@ -63,16 +67,23 @@
                                             "type": "object",
                                             "properties": {
                                                 "type_prediction": {
-                                                    "type": ["string", "null"],
+                                                    "type": "string",
                                                     "example": "Plastic"
                                                 },
-                                                "waste_type": {
-                                                    "type": ["string", "null"],
-                                                    "example": "Inorganic"
+                                                "plastic_type": {
+                                                    "type": "string",
+                                                    "nullable": true,
+                                                    "example": "HDPE"
                                                 },
                                                 "confidence_score": {
-                                                    "type": ["number", "null"],
+                                                    "type": "number",
+                                                    "nullable": true,
                                                     "example": 0.92
+                                                },
+                                                "waste_id": {
+                                                    "type": "string",
+                                                    "nullable": true,
+                                                    "example": "plastic_hdpe"
                                                 }
                                             }
                                         }

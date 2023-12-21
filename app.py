@@ -7,9 +7,10 @@ import tensorflow_hub as tfhub
 from flask import Flask, request, jsonify
 from PIL import Image
 from werkzeug.utils import secure_filename
-from swagger import create_swagger_blueprint
 from flask_cors import CORS
 from ultralytics import YOLO
+from flask_swagger_ui import get_swaggerui_blueprint
+
 
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
@@ -22,9 +23,6 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads/WasteWise'
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 app.config['MODEL_FILE'] = 'model/model_WasteWise.h5'
 app.config['PLASTIC_MODEL_FILE'] = 'model/model_plasticType.pt'
-
-SWAGGER_URL = '/api_model-docs'
-swagger_ui_blueprint = create_swagger_blueprint()
 
 # Load Model for Prediction WasteWise Model
 wastewise_model_file_path = app.config['MODEL_FILE']
@@ -106,8 +104,27 @@ def predict_waste_type(img_path):
         return {
             "type_prediction": None,
             "confidence_score": None,
+            "plastic_type": None,
+            "waste_id": None,
             "error": f"Error processing image: {str(e)}",
         } 
+
+def create_swagger_blueprint():
+    SWAGGER_URL = '/api-docs'
+    API_URL = '/static/API-Documentations/swagger.json'
+
+    return get_swaggerui_blueprint(
+        SWAGGER_URL,
+        API_URL,
+        config={
+            'app_name': "WasteWise Machine Learning API"
+        }
+    )
+
+SWAGGER_URL = '/api-docs'
+swagger_ui_blueprint = create_swagger_blueprint()
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+
 
 @app.route("/")
 def index():
@@ -207,5 +224,4 @@ def prediction_route():
         }), 405
 
 if __name__ == "__main__":
-    app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run(debug = False, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
